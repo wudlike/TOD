@@ -6,11 +6,11 @@ import time
 import argparse
 
 parser = argparse.ArgumentParser(description='test running')
-parser.add_argument('-td','--Add_td',default='True', choices=['True','False'],
+parser.add_argument('-td','--Add_td',default='False', choices=['True','False'],
                     help='smoothing thermaldust, default=True')
-parser.add_argument('-sycn','--Add_sync',default='True', choices=['True','False'],
+parser.add_argument('-sync','--Add_sync',default='False', choices=['True','False'],
                     help='smoothing synchrotron, default=True')
-parser.add_argument('-cmb','--Add_cmb',default='True', choices=['True','False'],
+parser.add_argument('-cmb','--Add_cmb',default='False', choices=['True','False'],
                     help='smoothing cmb, default=True')
 args = parser.parse_args()
 config = vars(args)
