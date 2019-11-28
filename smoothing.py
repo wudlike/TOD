@@ -172,8 +172,10 @@ if __name__ == "__main__":
     """ 
     if config['Add_cmb'] == 'True':
         print("Smoothing cmb maps...")
-        cmb_maps = np.array([map_smoothing(dB(nu,T=2.73)*CMB().cmb_map()+BB(nu,T=2.73),FWHM(nu)) for nu in band])
+        cmb_map_i = CMB().cmb_map()
+        cmb_maps = np.array([map_smoothing(dB(nu,T=2.73)*cmb_map_i+BB(nu,T=2.73),FWHM(nu)) for nu in band])
         print("Writing smoothed cmb maps to files...")
+        np.save('../data/psm/smoothed_comps/cmb/cmb_maps_smoothed',cmb_maps)
     if config['Add_sync'] == 'True':
         print("Smoothing synchrotron maps...")
         sy_ampl = Synchrotron().sync_ampl()  

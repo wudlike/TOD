@@ -12,5 +12,3 @@ There are three options when running this module,
       default is False
 
 The format of the saved data is as follows:
-
-$f(x)=y$
