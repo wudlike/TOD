@@ -104,10 +104,11 @@ def convert_units(unit1,unit2,nu):
     
 def sync_map(nu,ampl,ind):
     """Return synchrotron maps"""
-    return ampl*(nu/st.nu_sync_ref)**ind
+    return ampl*(nu/st.nu_sync_ref)**(ind-2)
 
 def BB(nu,T):
     """Planck function
+       return black body brightness
     - unit: W/(m^2.Hz)
     """
 #    return pysm.common.B(nu,T)  # W/(m^2.Hz)
@@ -122,7 +123,7 @@ def dB(nu,T):
 
 def dust_map(nu,ampl,ind):
     """Reture dust maps"""
-    return ampl*(nu/st.nu_dust_ref)**ind*BB(nu,st.Td)
+    return ampl*(nu/st.nu_dust_ref)**ind*BB(nu,st.Td)/BB(st.nu_dust_ref,st.Td)
     
 def map_smoothing(map_in,fwhm):
     """Return smoothed map
@@ -172,8 +173,8 @@ if __name__ == "__main__":
     """ 
     if config['Add_cmb'] == 'True':
         print("Smoothing cmb maps...")
-        cmb_map_i = CMB().cmb_map()
-        cmb_maps = np.array([map_smoothing(dB(nu,T=2.73)*cmb_map_i+BB(nu,T=2.73),FWHM(nu)) for nu in band])
+        cmb_map_in = CMB().cmb_map()
+        cmb_maps = np.array([map_smoothing(dB(nu,T=2.73)*cmb_map_in*convert_units('uK_CMB','MJysr',nu)+BB(nu,T=2.73),FWHM(nu)) for nu in band])
         print("Writing smoothed cmb maps to files...")
         np.save('../data/psm/smoothed_comps/cmb/cmb_maps_smoothed',cmb_maps)
     if config['Add_sync'] == 'True':
